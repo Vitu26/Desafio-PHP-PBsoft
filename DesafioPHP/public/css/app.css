@@ -1,0 +1,85 @@
+/*CSS TEMPLATE*/
+#header{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.304);
+}
+.header-title{
+    color: black;
+}
+
+#header a{
+    text-decoration: none;
+}
+
+#header-div1{
+    padding-left: 8%;
+
+}
+
+#header-div2{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    padding-right: 14%;
+    margin-bottom: 1%;
+}
+
+#header-div2 a{
+    color: white;
+}
+
+/*CSS MAIN*/
+.main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    height: 49rem;
+    text-align: center;
+}
+
+.main a{
+    text-decoration: none;
+    font-size: larger;
+    text-align: center;
+    color: white;
+}
+.main button{
+    width: 10em;
+    text-align: center;
+}
+/*CSS INDEX*/
+
+/*CSS SHOW*/
+#show{
+    padding-top: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*CSS CREATE*/
+#form_cad-edit{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90rem;
+}
+
+#i1, #i2, #i3, #i4{
+    margin-bottom: 5%;
+}
+
+.input-group{
+    padding-bottom: 2%;
+
+}
+
+
+.col-md-6{
+    padding-bottom: 2%;
+
+}
