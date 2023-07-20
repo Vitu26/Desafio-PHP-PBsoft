@@ -25,6 +25,7 @@ Primeiro é necessario ter a instalação de um servidor feito de maneira direta
 Realize o clone deste repositorio via git usando no seu cmd o seguinte comando:
 
 **git clone https://github.com/Vitu26/desafio-pbsoft**
+**git clone https://github.com/Vitu26/Desafio-PHP-PBsoft-React**
 
 ### Passo 2 - Arquivo .env
 
