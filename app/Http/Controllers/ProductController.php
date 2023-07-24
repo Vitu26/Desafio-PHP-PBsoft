@@ -7,11 +7,16 @@ use App\Models\Product;
 use App\Http\Requests\ProductStoreRequest;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Controllador para gerenciar as operações CRUD para os produtos para um API JSON
+ */
+
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * Retorna todos os produtos em formato JSON
      */
     public function index()
     {
@@ -22,8 +27,6 @@ class ProductController extends Controller
        return response()->json([
           'products' => $products
        ],200);
-       $products = Product::paginate(10);
-        return view('index', compact('stock'));
     }
 
     /**
@@ -54,11 +57,11 @@ class ProductController extends Controller
                 'message' => "Something went really wrong!"
             ],500);
         }
-        return view('create');
     }
 
     /**
      * Store a newly created resource in storage.
+     * cria um novo produto com base nos dados enviados pelo cliente e retorna uma respota JSON
      */
     public function store(ProductStoreRequest $request)
     {
@@ -89,6 +92,7 @@ class ProductController extends Controller
 
     /**
      * Display the specified resource.
+     * retorna os detalhes de um produto especifico com base no ID fornecido em JSON, caso não seja encontrado retorna msg de erro
      */
     public function show(string $id)
     {
@@ -110,6 +114,7 @@ class ProductController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * Atualiza os detalhes de um produto especifico com base nos dados enviados pelo cliente e retorna uma mensagem de sucesso ou falha e caso não encontre uma msg de erro
      */
     public function update(ProductStoreRequest $request, $id)
     {
@@ -147,6 +152,7 @@ class ProductController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * Exclui um produto com base no id fornecido e retorna uma resposta json e caso não encontre uma msg de erro
      */
 
     public function destroy($id)
@@ -170,86 +176,6 @@ class ProductController extends Controller
             'message' => "Product successfully deleted."
         ],200);
     }
-
-    //funções para views
-    public function indexForView()
-    {
-        $products = Product::paginate(10);
-        return view('index', compact('products'));
-    }
-
-
-    public function createForView()
-    {
-        return view('create');
-    }
-
-
-    public function storeForView(ProductStoreRequest $request)
-    {
-        $register= Product::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'category' => $request->category,
-            'value' => $request->value,
-            'quanty' => $request->quanty,
-
-        ]);
-        if ($register) {
-            return redirect('stock');
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showForView($id)
-    {
-        $products = Product::find($id);
-        return redirect('stock');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function editForView($id)
-    {
-        $products = Product::find($id);
-        return view('create', compact('products'));
-    }
-
-
-    public function updateForView(ProductStoreRequest $request, $id)
-    {
-        Product::where(['id' => $id])->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'category' => $request->category,
-            'value' => $request->value,
-            'quanty' => $request->quanty,
-        ]);
-        return redirect('stock');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyForView($id)
-    {
-        Product::destroy($id);
-        return redirect('stock');
-    }
-
-
 
 }
 

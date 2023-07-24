@@ -4,10 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+/**
+ * Esse arquivo cria a tabela 'products' com os campos especificaddos para o banco de dados
+ */
+
 return new class extends Migration
 {
     /**
      * Run the migrations.
+     * método responsável por definir as ações executadas ao executar a migração
      */
     public function up(): void
     {
@@ -24,6 +29,7 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     * método responsável por definir as ações executadas ao reverter a migração
      */
     public function down(): void
     {
