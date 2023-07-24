@@ -16,7 +16,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $table = 'products';//aqui está definida a tabela de banco de dados assiciada ao model
+    protected $table = 'products';//aqui está definida a tabela de banco de dados associada ao model
 
     protected $fillable = [
         'name',
