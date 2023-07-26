@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests\ProductStoreRequest;
-use Illuminate\Support\Facades\Storage;
+
 
 /**
  * Controllador para gerenciar as operações CRUD para os produtos para um API JSON
@@ -21,6 +21,7 @@ class ProductController extends Controller
     public function index()
     {
          // All Product
+         //recupera todos os registros do banco de dados
        $products = Product::all();
 
        // Return Json Response
@@ -165,8 +166,6 @@ class ProductController extends Controller
           ],404);
         }
 
-        // Public storage
-        $storage = Storage::disk('public');
 
         // Delete Product
         $product->delete();

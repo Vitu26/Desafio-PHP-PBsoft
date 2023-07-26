@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Esse arquivo cria a tabela 'products' com os campos especificaddos para o banco de dados
+ * Esse arquivo cria a tabela 'products' com os campos especificados para o banco de dados
  */
 
 return new class extends Migration
