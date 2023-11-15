@@ -29,46 +29,27 @@ class ProductStoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        if(request()->isMethod('post')) {
-            return [
-                'name' => 'required|string|max:258',
-                'value' => 'required|numeric',
-                'description' => 'required|string',
-                'quanty' => 'required|numeric',
-                'category' => 'required'
-            ];
-        } else {
-            return [
-                'name' => 'required|string|max:258',
-                'value' => 'required|numeric',
-                'description' => 'required|string',
-                'quanty' => 'required|numeric',
-                'category' => 'required'
-            ];
-        }
+        return [
+            'name' => 'required|string|max:258',
+            'value' => 'required|numeric',
+            'description' => 'required|string',
+            'quanty' => 'required|numeric',
+            'category' => 'required'
+        ];
     }
 
     /**
-     * mensagens de erro
+     * Mensagens de erro personalizadas para as regras de validação.
      */
     public function messages()
     {
-        if(request()->isMethod('post')) {
-            return [
-                'name.required' => 'Name is required!',
-                'value.required' => 'Value is required!',
-                'description.required' => 'Descritpion is required!',
-                'quanty.required' => 'Quanty is required!',
-                'category.required' => 'category is required!'
-            ];
-        } else {
-            return [
-                'name.required' => 'Name is required!',
-                'value.required' => 'Image is required!',
-                'description.required' => 'Descritpion is required!',
-                'quanty.required' => 'Descritpion is required!',
-                'category.required' => 'Descritpion is required!'
-            ];
-        }
+        return [
+            'name.required' => 'Name is required!',
+            'value.required' => 'Value is required!',
+            'description.required' => 'Description is required!',
+            'quanty.required' => 'Quantity is required!',
+            'category.required' => 'Category is required!'
+        ];
     }
 }
+
