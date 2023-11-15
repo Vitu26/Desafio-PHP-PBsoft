@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests\ProductStoreRequest;
+use Illuminate\Support\Facades\Cache;
 
 
 /**
@@ -20,14 +21,16 @@ class ProductController extends Controller
      */
     public function index()
     {
-         // All Product
-         //recupera todos os registros do banco de dados
-       $products = Product::all();
+        // All Product
+        //recupera todos os registros do banco de dados
+        $products = Cache::remember('products_all', 60, function () {
+            return Product::all();
+        });
 
-       // Return Json Response
-       return response()->json([
-          'products' => $products
-       ],200);
+        // Return Json Response
+        return response()->json([
+            'products' => $products
+        ], 200);
     }
 
     /**
@@ -51,12 +54,12 @@ class ProductController extends Controller
             // Return Json Response
             return response()->json([
                 'message' => "Product successfully created."
-            ],200);
+            ], 200);
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
                 'message' => "Something went really wrong!"
-            ],500);
+            ], 500);
         }
     }
 
@@ -64,30 +67,50 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      * cria um novo produto com base nos dados enviados pelo cliente e retorna uma respota JSON
      */
+    // public function store(ProductStoreRequest $request)
+    // {
+    //     try {
+
+    //         // Create Product
+    //         Product::create([
+    //             'name' => $request->name,
+    //             'quanty' => $request->quanty,
+    //             'description' => $request->description,
+    //             'category' => $request->category,
+    //             'value' => $request->value
+    //         ]);
+
+
+
+    //         // Return Json Response
+    //         return response()->json([
+    //             'message' => "Product successfully created."
+    //         ],200);
+    //     } catch (\Exception $e) {
+    //         // Return Json Response
+    //         return response()->json([
+    //             'message' => "Something went really wrong!"
+    //         ],500);
+    //     }
+    // }
+
     public function store(ProductStoreRequest $request)
     {
         try {
-
             // Create Product
-            Product::create([
-                'name' => $request->name,
-                'quanty' => $request->quanty,
-                'description' => $request->description,
-                'category' => $request->category,
-                'value' => $request->value
-            ]);
+            Product::create($request->validated());
 
-
+            // Invalida o cache
+            Cache::forget('products_all');
 
             // Return Json Response
-            return response()->json([
-                'message' => "Product successfully created."
-            ],200);
+            Cache::forget('products_all');
+            return response()->json(['message' => 'Product successfully created.'], 200);
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
                 'message' => "Something went really wrong!"
-            ],500);
+            ], 500);
         }
     }
 
@@ -98,17 +121,17 @@ class ProductController extends Controller
     public function show(string $id)
     {
         // Product Detail
-       $product = Product::find($id);
-       if(!$product){
-         return response()->json([
-            'message'=>'Product Not Found.'
-         ],404);
-       }
+        $product = Product::find($id);
+        if (!$product) {
+            return response()->json([
+                'message' => 'Product Not Found.'
+            ], 404);
+        }
 
-       // Return Json Response
-       return response()->json([
-          'product' => $product
-       ],200);
+        // Return Json Response
+        return response()->json([
+            'product' => $product
+        ], 200);
     }
 
 
@@ -122,10 +145,10 @@ class ProductController extends Controller
         try {
             // Find product
             $product = Product::find($id);
-            if(!$product){
-              return response()->json([
-                'message'=>'Product Not Found.'
-              ],404);
+            if (!$product) {
+                return response()->json([
+                    'message' => 'Product Not Found.'
+                ], 404);
             }
 
 
@@ -135,19 +158,20 @@ class ProductController extends Controller
             $product->category = $request->category;
             $product->value = $request->value;
 
-
+            Cache::forget('products_all');
+            Cache::forget("product_{$id}");
             // Update Product
             $product->save();
 
             // Return Json Response
             return response()->json([
                 'message' => "Product successfully updated."
-            ],200);
+            ], 200);
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
                 'message' => "Something went really wrong!"
-            ],500);
+            ], 500);
         }
     }
 
@@ -156,28 +180,45 @@ class ProductController extends Controller
      * Exclui um produto com base no id fornecido e retorna uma resposta json e caso não encontre uma msg de erro
      */
 
+    // public function destroy($id)
+    // {
+    //     // Detail
+    //     $product = Product::find($id);
+    //     if(!$product){
+    //       return response()->json([
+    //          'message'=>'Product Not Found.'
+    //       ],404);
+    //     }
+
+
+    //     // Delete Product
+    //     $product->delete();
+
+    //     // Return Json Response
+    //     return response()->json([
+    //         'message' => "Product successfully deleted."
+    //     ],200);
+    // }
     public function destroy($id)
     {
         // Detail
         $product = Product::find($id);
-        if(!$product){
-          return response()->json([
-             'message'=>'Product Not Found.'
-          ],404);
+        if (!$product) {
+            return response()->json([
+                'message' => 'Product Not Found.'
+            ], 404);
         }
-
 
         // Delete Product
         $product->delete();
+        Cache::forget('products_all');
+        Cache::forget("product_{$id}");
+        // Invalida o cache
+        Cache::forget('products_all');
 
         // Return Json Response
         return response()->json([
             'message' => "Product successfully deleted."
-        ],200);
+        ], 200);
     }
-
 }
-
-
-
-
